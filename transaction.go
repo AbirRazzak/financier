@@ -3,10 +3,11 @@ package main
 import (
 	"log"
 	"strconv"
+	"time"
 )
 
 type Transaction struct {
-	Date        string // todo convert to Date later
+	Date        time.Time
 	Account     string
 	Description string
 	Category    string
@@ -21,8 +22,14 @@ func newTransaction(record []string) *Transaction {
 		log.Fatal(err)
 	}
 
+	dateAsString := record[0]
+	dateAsTime, err := time.Parse("2006-01-02", dateAsString) // YYYY-MM-DD
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	trans := Transaction{
-		Date:        record[0],
+		Date:        dateAsTime,
 		Account:     record[1],
 		Description: record[2],
 		Category:    record[3],
