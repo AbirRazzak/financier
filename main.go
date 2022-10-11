@@ -43,8 +43,8 @@ func readTransactions(file string) <-chan []string {
 	return out
 }
 
-func convertTransactionToStructure(in <-chan []string) <-chan *transaction {
-	out := make(chan *transaction)
+func convertTransactionToStructure(in <-chan []string) <-chan *Transaction {
+	out := make(chan *Transaction)
 	go func() {
 		for record := range in {
 			out <- newTransaction(record)

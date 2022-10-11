@@ -12,7 +12,7 @@ func Test_newTransaction(t *testing.T) {
 	tests := []struct {
 		name string
 		args args
-		want *transaction
+		want *Transaction
 	}{
 		// TODO: Add test cases.
 	}
