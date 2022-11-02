@@ -1,0 +1,42 @@
+name: Go
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+
+      - name: Build
+        run: go build -v ./...
+
+      - name: Test
+        run: |
+          go test -v ./... -coverprofile coverage.out -covermode count
+          go tool cover -func coverage.out
+
+      - name: Code Coverage
+        env:
+          COVERAGE_TARGET: 50
+        run: |
+          echo "Target                : $COVERAGE_TARGET %"
+          totalCoverage=`go tool cover -func=coverage.out | grep total | grep -Eo '[0-9]+\.[0-9]+'`
+          echo "Current test coverage : $totalCoverage %"
+          if (( $(echo "$totalCoverage $COVERAGE_TARGET" | awk '{print ($1 > $2)}') )); then
+            echo "✔"
+          else
+            echo "❌"
+            exit 1
+          fi
+          
