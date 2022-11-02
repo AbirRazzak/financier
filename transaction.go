@@ -23,7 +23,7 @@ func newTransaction(record []string) *Transaction {
 	}
 
 	dateAsString := record[0]
-	dateAsTime, err := time.Parse("2006-01-02", dateAsString) // YYYY-MM-DD
+	dateAsTime, err := time.ParseInLocation("2006-01-02", dateAsString, time.Local) // YYYY-MM-DD
 	if err != nil {
 		log.Fatal(err)
 	}
