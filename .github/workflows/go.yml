@@ -27,7 +27,7 @@ jobs:
           go tool cover -func coverage.out
 
       - name: Code Coverage
-        evn:
+        env:
           COVERAGE_TARGET: 50
         run: |
           echo "Target                : $COVERAGE_TARGET %"
